@@ -1,23 +1,22 @@
 import  java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-
 public class Controller {
-    List<String> strList = new ArrayList<>();
-        private String expression;
      Model model = new Model();
      Scanner scanner = new Scanner(System.in);
-
-
+     Addition addition = new Addition();
+     RecordFile recordFile = new RecordFile();
    public double calc(String expression) {
-        //expression = scanner.nextLine();
+
+       expression = scanner.nextLine();
        List<String> strList = new ArrayList<>();
        for (String listElement : expression.trim().split(" ")) {
            strList.add(listElement);
            strList.add(" ");
        }
        strList.remove(strList.size() - 1);
+       recordFile.writingToFile(expression);
+       addition.equation(expression);
 
        if (strList.indexOf("(") != -1) {
 
@@ -57,6 +56,6 @@ public class Controller {
                }
            }
        }
-       return model.actions(expression);
+       return  model.actions(expression);
    }
 }

@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Model {
-
+Scanner scanner = new Scanner(System.in);
     public Double actions(String expression) {
         List<String> stringList2 = new ArrayList<>();
         for (String element : expression.trim().split(" ")) {
@@ -13,8 +14,24 @@ public class Model {
         while (stringList2.size() != 0) {
 
             Double result = 0d;
+              if (stringList2.indexOf("^") != -1) {
+                int index = stringList2.indexOf("^");
 
-            if (stringList2.indexOf("/") != -1) {
+                result= Math.pow(Double.valueOf(stringList2.get(index - 1)), Double.parseDouble(stringList2.get(index + 1)));
+                stringList2.add(index - 1, String.valueOf(result));
+                stringList2.remove(index + 2);
+                stringList2.remove(index + 1);
+                stringList2.remove(index);
+            }
+              else if (stringList2.indexOf("*") != -1) {
+                  int index = stringList2.indexOf("*");
+                  result = Double.valueOf(stringList2.get(index - 1)) * Double.valueOf(stringList2.get(index + 1));
+                  stringList2.add(index - 1, String.valueOf(result));
+                  stringList2.remove(index + 2);
+                  stringList2.remove(index + 1);
+                  stringList2.remove(index);
+              }
+           else if (stringList2.indexOf("/") != -1) {
                 int index = stringList2.indexOf("/");
                 result = Double.valueOf(stringList2.get(index - 1)) / Double.valueOf(stringList2.get(index + 1));
                 stringList2.add(index - 1, String.valueOf(result));
@@ -22,14 +39,32 @@ public class Model {
                 stringList2.remove(index + 1);
                 stringList2.remove(index);
             }
-            else if (stringList2.indexOf("*") != -1) {
-                int index = stringList2.indexOf("*");
-                result = Double.valueOf(stringList2.get(index - 1)) * Double.valueOf(stringList2.get(index + 1));
+
+
+            else if (stringList2.indexOf("%") != -1) {
+                int index = stringList2.indexOf("%");
+
+                result = Double.valueOf(stringList2.get(index - 1)) % Double.valueOf(stringList2.get(index + 1));
                 stringList2.add(index - 1, String.valueOf(result));
                 stringList2.remove(index + 2);
                 stringList2.remove(index + 1);
                 stringList2.remove(index);
             }
+            else if (stringList2.indexOf("//") != -1) {
+                int index = stringList2.indexOf("//");
+                result = Double.valueOf(Integer.valueOf(stringList2.get(index - 1)) / Integer.valueOf(stringList2.get(index + 1)));
+                stringList2.add(index - 1, String.valueOf(result));
+                stringList2.remove(index + 2);
+                stringList2.remove(index + 1);
+                stringList2.remove(index);
+            }
+              else if (stringList2.indexOf("abs") != - 1) {
+                  int index = stringList2.indexOf("abs");
+                  result = Math.abs(Double.valueOf(stringList2.get(index + 1)));
+                  stringList2.add(index + 1, String.valueOf(result));
+                  stringList2.remove(index);
+              }
+
             else if (stringList2.indexOf("-") != -1) {
                 int index = stringList2.indexOf("-");
                 int lastIndex = stringList2.lastIndexOf("-");
